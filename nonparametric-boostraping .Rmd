@@ -1,0 +1,87 @@
+---
+title: "Nonparametric Boostraping"
+output: 
+  html_notebook:
+    theme: cosmo
+    highlight: monochrome
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    number_sections: true
+    code_folding: show
+    df_print: kable
+  github_document: default
+---
+
+<style>
+
+h1.title { 
+  font-size: 18pt; 
+  color: DarkBlue; 
+} 
+
+body, h1, h2, h3, h4 {
+    font-family: "Palatino", serif;
+}
+
+body {
+    font-size: 12pt;
+}
+
+/* Headers */
+h1,h2,h3,h4,h5,h6{
+  font-size: 14pt;
+  color: #00008B;
+}
+
+body {
+    color: #333333;
+}
+a, a:hover {
+    color: #8B3A62;
+}
+pre {
+    font-size: 12px;
+}
+</style>
+
+
+
+# Preliminarities 
+
+This notebook is based on the following article
+
+- Quick-R: Bootstrapping. (2018). Statmethods.net. Retrieved 7 May 2018, from <https://www.statmethods.net/advstats/bootstrapping.html>
+
+List of packages
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(boot)
+```
+
+
+# Bootstrapping a Single Statistic (k=1)
+
+The following example generates the bootstrapped 95% confidence interval for R-squared in the linear regression of miles per gallon (`mpg`) on car `weight` (wt) and displacement (`disp`). The data source is mtcars. The bootstrapped confidence interval is based on 1000 replications.
+
+First, let us definie a function to obtain R-Squared from the data  
+
+```{r}
+rsq <- function(formula, data, indices) {
+  d <- data[indices,] # allows boot to select sample 
+  fit <- lm(formula, data=d)
+  return(summary(fit)$r.square)
+} 
+```
+
+Next, apply the formula
+
+```{r}
+RSQ <- rsq(mpg~wt+disp, mtcars, indices) 
+```
+
+
+
+
+# Bootstrapping several Statistics (k>1)
