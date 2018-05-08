@@ -12,7 +12,6 @@ output:
     df_print: kable
   github_document: default
 ---
-
 <style>
 
 h1.title { 
@@ -73,12 +72,6 @@ rsq <- function(formula, data, indices) {
   fit <- lm(formula, data=d)
   return(summary(fit)$r.square)
 } 
-```
-
-Next, apply the formula
-
-```{r}
-RSQ <- rsq(mpg~wt+disp, mtcars, indices) 
 ```
 
 
